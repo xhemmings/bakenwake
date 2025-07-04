@@ -1,0 +1,1618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bake N Wake - Artisan Bakery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #FF9B9B;
+            --secondary: #FFEDDF;
+            --accent: #FF8484;
+            --text: #5A3E36;
+            --light: #FFF9F5;
+            --dark: #4A2E2E;
+            --success: #8BC34A;
+            --overlay: rgba(0, 0, 0, 0.7);
+            --footer-bg: #f9f7f4;
+            --footer-border: #eae7e2;
+        }
+
+        body {
+            background-color: var(--secondary);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 0;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        #content {
+            flex: 1;
+        }
+
+        #main-nav {
+            width: 100%;
+            background: var(--primary);
+            padding: 15px 30px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        #nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        #brand-logo {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #brand-logo i {
+            color: var(--light);
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            color: var(--light);
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            font-size: 18px;
+        }
+
+        .nav-links li a:hover {
+            background: var(--accent);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        #nav-icons {
+            display: flex;
+            gap: 20px;
+        }
+
+        #nav-icons button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--light);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        #nav-icons button:hover {
+            background: var(--accent);
+            transform: scale(1.1);
+        }
+
+        #menu-toggle {
+            display: none;
+        }
+
+        #storefront {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 30px;
+        }
+
+        #storefront h1 {
+            text-align: center;
+            font-size: 60px;
+            margin: 30px 0;
+            color: var(--accent);
+            text-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+            position: relative;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #storefront h1:after {
+            content: '';
+            display: block;
+            width: 150px;
+            height: 4px;
+            background: var(--primary);
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        #page-container {
+            display: flex;
+            gap: 40px;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        /* Product Card Styling - IMPROVED */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 30px;
+            padding: 10px;
+            flex-grow: 1;
+            transition: all 0.4s ease;
+        }
+
+        .product-card {
+            width: 100%;
+            min-height: 480px;
+            border-radius: 25px;
+            background-color: var(--light);
+            color: var(--text);
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.5s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            z-index: 1;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            z-index: 10;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 240px;
+            border-top-left-radius: 25px;
+            border-top-right-radius: 25px;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .product-info {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-info h3 {
+            margin: 0 0 10px 0;
+            font-size: 22px;
+            transition: all 0.3s ease;
+        }
+
+        .product-price {
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+
+        .description-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+        }
+
+        .short-description {
+            font-size: 15px;
+            color: #777;
+            line-height: 1.5;
+            margin-bottom: 10px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .expand-description {
+            color: var(--accent);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 5px 0;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: auto;
+        }
+
+        .expand-description i {
+            transition: transform 0.3s ease;
+        }
+
+        .expand-text {
+            margin-left: 5px;
+        }
+
+        .full-description {
+            font-size: 15px;
+            color: #777;
+            line-height: 1.5;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .expanded .full-description {
+            max-height: 200px;
+        }
+
+        .expanded .short-description {
+            display: none;
+        }
+
+        .expanded .expand-description i {
+            transform: rotate(180deg);
+        }
+
+        .product-actions {
+            padding: 0 20px 20px;
+            margin-top: auto;
+        }
+
+        .add-to-cart-btn {
+            border-radius: 30px;
+            padding: 12px 25px;
+            background-color: var(--primary);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Cart Styling - Fixed Width */
+        #cart {
+            width: 420px;
+            min-width: 420px;
+            padding: 30px;
+            border-radius: 25px;
+            background-color: var(--light);
+            color: var(--text);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+            transition: all 0.4s ease;
+        }
+
+        #cart h2 {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--primary);
+            color: var(--accent);
+            font-size: 28px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            padding-bottom: 15px;
+        }
+
+        .cart-item img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            margin-right: 15px;
+            border-radius: 10px;
+        }
+
+        .cart-item-details {
+            flex-grow: 1;
+        }
+
+        .cart-item-details strong {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 18px;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 5px 10px;
+            border-radius: 30px;
+            color: var(--accent);
+            font-weight: bold;
+            border: 1px solid #eee;
+        }
+
+        .quantity-controls button {
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: var(--accent);
+            cursor: pointer;
+            margin: 0 5px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity-controls button:hover {
+            background: #f5f5f5;
+        }
+
+        .delete-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-left: 10px;
+            color: #ff6b6b;
+            font-size: 20px;
+        }
+
+        #cart-total {
+            font-weight: bold;
+            margin: 25px 0;
+            font-size: 24px;
+            text-align: right;
+            padding-top: 15px;
+            border-top: 2px dashed var(--primary);
+        }
+
+        #checkout-btn {
+            background: var(--accent);
+            border: none;
+            color: white;
+            padding: 15px;
+            width: 100%;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 132, 132, 0.3);
+        }
+
+        #checkout-btn:hover {
+            background: #e56b6b;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 132, 132, 0.4);
+        }
+
+        .empty-cart-message {
+            text-align: center;
+            padding: 30px;
+            color: #888;
+            font-style: italic;
+        }
+
+        /* Overlay Styling */
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--overlay);
+            z-index: 2000;
+            display: none;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Checkout Form Styling */
+        #checkout-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotateY(90deg);
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            border-radius: 25px;
+            background-color: var(--light);
+            color: var(--text);
+            box-shadow: 0 5px 25px rgba(0,0,0,0.4);
+            height: fit-content;
+            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            z-index: 2001;
+            transform-origin: center;
+            opacity: 0;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        #checkout-container.active {
+            transform: translate(-50%, -50%) rotateY(0deg);
+            opacity: 1;
+        }
+
+        #checkout-container h2 {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--primary);
+            color: var(--accent);
+            font-size: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 155, 155, 0.3);
+        }
+
+        .half-width {
+            display: flex;
+            gap: 15px;
+        }
+
+        .half-width .form-group {
+            flex: 1;
+        }
+
+        .checkout-summary {
+            background: rgba(255, 155, 155, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .checkout-summary h3 {
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #ddd;
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 18px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 2px solid var(--primary);
+        }
+
+        #back-to-cart {
+            background: #aaa;
+            border: none;
+            color: white;
+            padding: 15px;
+            width: 100%;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        #back-to-cart:hover {
+            background: #999;
+            transform: translateY(-3px);
+        }
+
+        #complete-order {
+            background: var(--success);
+            border: none;
+            color: white;
+            padding: 15px;
+            width: 100%;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            box-shadow: 0 5px 15px rgba(139, 195, 74, 0.3);
+        }
+
+        #complete-order:hover {
+            background: #7cb342;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(139, 195, 74, 0.4);
+        }
+
+        /* Confirmation Message */
+        #confirmation {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        #confirmation i {
+            font-size: 80px;
+            color: var(--success);
+            margin-bottom: 20px;
+        }
+
+        #confirmation h2 {
+            color: var(--success);
+            margin-bottom: 15px;
+        }
+
+        #confirmation p {
+            margin-bottom: 25px;
+            font-size: 18px;
+        }
+
+        #continue-shopping {
+            background: var(--primary);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #continue-shopping:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: var(--footer-bg);
+            border-top: 1px solid var(--footer-border);
+            padding: 40px 0 20px;
+            margin-top: 50px;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        .footer-top {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid var(--footer-border);
+        }
+
+        .footer-feature {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .footer-feature h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .footer-feature p {
+            color: #666;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .footer-feature a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer-feature a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-middle {
+            display: flex;
+            justify-content: space-between;
+            padding: 40px 0;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .newsletter {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .newsletter h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .newsletter p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .email-input {
+            display: flex;
+            max-width: 400px;
+        }
+
+        .email-input input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 16px;
+        }
+
+        .email-input button {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .email-input button:hover {
+            background: #e56b6b;
+        }
+
+        .help-center {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .help-center h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .help-center a {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .help-center a:hover {
+            background: #e56b6b;
+            transform: translateY(-2px);
+        }
+
+        .sustainability {
+            text-align: center;
+            padding: 20px 0;
+            color: #666;
+            font-size: 14px;
+            border-top: 1px solid var(--footer-border);
+            border-bottom: 1px solid var(--footer-border);
+        }
+
+        .sustainability i {
+            color: var(--success);
+            margin-right: 5px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            padding: 40px 0;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .footer-column h4 {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-column ul li a {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding-top: 30px;
+            border-top: 1px solid var(--footer-border);
+            color: #888;
+            font-size: 14px;
+        }
+
+        .footer-bottom-left {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-bottom-left a {
+            color: #888;
+            text-decoration: none;
+        }
+
+        .footer-bottom-left a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-bottom-right {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .country-select {
+            background: none;
+            border: none;
+            color: #888;
+            cursor: pointer;
+        }
+
+        /* Notification System */
+        #notification-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 15px;
+            z-index: 2000;
+            max-width: 350px;
+        }
+
+        .notification {
+            padding: 15px 25px;
+            background: var(--primary);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            animation: slideIn 0.5s ease forwards, fadeOut 0.5s ease 2.5s forwards;
+            transform: translateX(100%);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            position: relative;
+        }
+
+        .notification-removing {
+            animation: slideOut 0.5s ease forwards !important;
+        }
+
+        @keyframes slideIn {
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes slideOut {
+            to {
+                opacity: 0;
+                transform: translateY(100%);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .product-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            #page-container {
+                flex-direction: column;
+            }
+            
+            #cart {
+                width: 100%;
+                min-width: auto;
+                position: static;
+            }
+            
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .footer-top, .footer-middle {
+                flex-direction: column;
+            }
+            
+            .footer-feature, .newsletter, .help-center {
+                min-width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            #nav-container {
+                flex-wrap: wrap;
+            }
+            
+            .nav-links {
+                order: 3;
+                width: 100%;
+                justify-content: center;
+                margin-top: 15px;
+                gap: 10px;
+            }
+            
+            .nav-links li a {
+                padding: 8px 15px;
+                font-size: 16px;
+            }
+            
+            #storefront h1 {
+                font-size: 40px;
+            }
+            
+            .product-card {
+                min-height: 450px;
+            }
+            
+            .product-image {
+                height: 200px;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            #notification-container {
+                max-width: 300px;
+                bottom: 15px;
+                right: 15px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            #brand-logo {
+                font-size: 24px;
+            }
+            
+            .nav-links {
+                gap: 5px;
+            }
+            
+            .nav-links li a {
+                font-size: 14px;
+                padding: 6px 10px;
+            }
+            
+            #storefront h1 {
+                font-size: 32px;
+            }
+            
+            .half-width {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            #notification-container {
+                max-width: 250px;
+                gap: 10px;
+            }
+            
+            .notification {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="content">
+        <header id="main-nav">
+            <div id="nav-container">
+                <div id="brand-logo">
+                    <i class="fas fa-bread-slice"></i>
+                    <span>Bake N Wake</span>
+                </div>
+                <nav>
+                    <ul class="nav-links">
+                        <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="#"><i class="fas fa-utensils"></i> Menu</a></li>
+                        <li><a href="#"><i class="fas fa-shopping-cart"></i> Cart</a></li>
+                        <li><a href="#"><i class="fas fa-phone"></i> Contact</a></li>
+                    </ul>
+                </nav>
+                <div id="nav-icons">
+                    <button id="search-btn"><i class="fas fa-search"></i></button>
+                    <button id="menu-toggle"><i class="fas fa-bars"></i></button>
+                </div>
+            </div>
+        </header>
+
+        <div id="storefront">
+            <h1>Freshly Baked Delights</h1>
+            <div id="page-container">
+                <div id="gallery" class="product-grid"></div>
+                <div id="cart">
+                    <h2><i class="fas fa-shopping-cart"></i> Your Order</h2>
+                    <div id="cart-items">Customer Order:</div>
+                    <div id="cart-total">Total: $0.00</div>
+                    <button id="checkout-btn">Proceed to Checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Overlay for checkout -->
+    <div id="overlay"></div>
+    
+    <!-- Checkout Form Container -->
+    <div id="checkout-container">
+        <div id="checkout-form">
+            <h2><i class="fas fa-credit-card"></i> Checkout</h2>
+            
+            <div class="checkout-summary">
+                <h3>Order Summary</h3>
+                <div id="order-summary">
+                    <!-- Order items will be populated here -->
+                </div>
+                <div class="summary-total">
+                    <span>Total:</span>
+                    <span id="order-total">$0.00</span>
+                </div>
+            </div>
+            
+            <h3>Delivery Information</h3>
+            <div class="form-group">
+                <label for="full-name">Full Name</label>
+                <input type="text" id="full-name" placeholder="John Doe" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="john@example.com" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Delivery Address</label>
+                <input type="text" id="address" placeholder="123 Main St" required>
+            </div>
+            <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" id="city" placeholder="New York" required>
+            </div>
+            <div class="half-width">
+                <div class="form-group">
+                    <label for="state">State</label>
+                    <input type="text" id="state" placeholder="NY" required>
+                </div>
+                <div class="form-group">
+                    <label for="zip">ZIP Code</label>
+                    <input type="text" id="zip" placeholder="10001" required>
+                </div>
+            </div>
+            
+            <h3>Payment Information</h3>
+            <div class="form-group">
+                <label for="card-name">Name on Card</label>
+                <input type="text" id="card-name" placeholder="John Doe" required>
+            </div>
+            <div class="form-group">
+                <label for="card-number">Card Number</label>
+                <input type="text" id="card-number" placeholder="1234 5678 9012 3456" required>
+            </div>
+            <div class="half-width">
+                <div class="form-group">
+                    <label for="expiry">Expiry Date</label>
+                    <input type="text" id="expiry" placeholder="MM/YY" required>
+                </div>
+                <div class="form-group">
+                    <label for="cvv">CVV</label>
+                    <input type="text" id="cvv" placeholder="123" required>
+                </div>
+            </div>
+            
+            <button id="complete-order"><i class="fas fa-check"></i> Complete Order</button>
+            <button id="back-to-cart"><i class="fas fa-arrow-left"></i> Back to Cart</button>
+        </div>
+        
+        <div id="confirmation">
+            <i class="fas fa-check-circle"></i>
+            <h2>Order Confirmed!</h2>
+            <p>Thank you for your order. Your delicious treats are being prepared!</p>
+            <p>Order ID: #<span id="order-id">12345</span></p>
+            <button id="continue-shopping">Continue Shopping</button>
+        </div>
+    </div>
+    
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-top">
+                <div class="footer-feature">
+                    <h3>A community doing good</h3>
+                    <p>Bake N Wake is a local artisan bakery where people come together to create delicious baked goods. We're committed to supporting our community and making a positive impact through sustainable practices.</p>
+                    <a href="#">Learn more about our mission →</a>
+                </div>
+                
+                <div class="footer-feature">
+                    <h3>Support independent bakers</h3>
+                    <p>Every purchase supports the talented bakers who pour their passion into creating our products. We believe in fair compensation and helping our team grow their craft.</p>
+                    <a href="#">Meet our bakers →</a>
+                </div>
+                
+                <div class="footer-feature">
+                    <h3>Peace of mind</h3>
+                    <p>Your satisfaction is our priority. If you're not completely happy with your order, our dedicated team is ready to help. We stand behind the quality of every product we bake.</p>
+                    <a href="#">Our satisfaction guarantee →</a>
+                </div>
+            </div>
+            
+            <div class="footer-middle">
+                <div class="newsletter">
+                    <h3>Get fresh updates</h3>
+                    <p>Sign up for exclusive offers, new product announcements, and baking tips from our artisans.</p>
+                    <div class="email-input">
+                        <input type="email" placeholder="Your email address">
+                        <button>Subscribe</button>
+                    </div>
+                </div>
+                
+                <div class="help-center">
+                    <h3>Have a question?</h3>
+                    <p>We've got answers! Our bakery experts are here to help with any questions about our products, ordering, or dietary needs.</p>
+                    <a href="#">Visit our help center</a>
+                </div>
+            </div>
+            
+            <div class="sustainability">
+                <p><i class="fas fa-leaf"></i> Bake N Wake is powered by 100% renewable electricity</p>
+            </div>
+            
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>Shop</h4>
+                    <ul>
+                        <li><a href="#">Bread</a></li>
+                        <li><a href="#">Pastries</a></li>
+                        <li><a href="#">Cakes</a></li>
+                        <li><a href="#">Cookies</a></li>
+                        <li><a href="#">Seasonal Specials</a></li>
+                        <li><a href="#">Gift Cards</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>About</h4>
+                    <ul>
+                        <li><a href="#">Our Story</a></li>
+                        <li><a href="#">Our Bakers</a></li>
+                        <li><a href="#">Sustainability</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Locations</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Help</h4>
+                    <ul>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Shipping & Delivery</a></li>
+                        <li><a href="#">Returns & Refunds</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Connect</h4>
+                    <ul>
+                        <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+                        <li><a href="#"><i class="fab fa-pinterest"></i> Pinterest</a></li>
+                        <li><a href="#"><i class="fab fa-tiktok"></i> TikTok</a></li>
+                        <li><a href="#"><i class="fas fa-blog"></i> Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Bake N Wake</h4>
+                    <ul>
+                        <li><a href="#">Wholesale Inquiries</a></li>
+                        <li><a href="#">Event Catering</a></li>
+                        <li><a href="#">Baking Classes</a></li>
+                        <li><a href="#">Corporate Gifts</a></li>
+                        <li><a href="#">Fundraising</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-bottom-left">
+                    <span>© 2023 Bake N Wake, Inc.</span>
+                    <a href="#">Privacy</a>
+                    <a href="#">Terms</a>
+                    <a href="#">Sitemap</a>
+                </div>
+                
+                <div class="footer-bottom-right">
+                    <select class="country-select">
+                        <option>United States</option>
+                        <option>Canada</option>
+                        <option>United Kingdom</option>
+                        <option>Australia</option>
+                    </select>
+                    <span>English (US)</span>
+                    <span>$ USD</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification Container -->
+    <div id="notification-container"></div>
+
+    <script>
+        const itemImageURL = [
+            'https://i.pinimg.com/736x/40/68/91/4068916f81fc85625e4d2d450c5fd820.jpg',
+            'https://i.pinimg.com/736x/07/db/c1/07dbc1e9b15c5ec64190dfe5db176b50.jpg',
+            'https://i.pinimg.com/736x/a7/64/99/a764997f875e9a22078dc8a7e0c82199.jpg',
+            'https://i.pinimg.com/736x/32/a5/38/32a538dbbc889c6e8f4ae4c781a37c9d.jpg',
+            'https://i.pinimg.com/736x/23/ed/0d/23ed0db365aac8fb20e1c265dc10eadf.jpg',
+            'https://i.pinimg.com/736x/88/62/3a/88623ade480b56f4fda69ac20846b24b.jpg',
+            'https://i.pinimg.com/736x/b6/f7/0e/b6f70e4feaf93d0fb60c949b7e95c5bb.jpg',
+            'https://i.pinimg.com/736x/49/9c/b6/499cb6f91b95ccec11998a3144246886.jpg',
+            'https://i.pinimg.com/736x/ae/00/69/ae00694db3d9bbeabe8099891a1140f2.jpg'
+        ];
+
+        let storeInventory = [
+            {
+                name: "Chocolate Croissant",
+                shortDesc: "Warm chocolate filled croissant made with premium Belgian chocolate",
+                fullDesc: "Warm chocolate filled croissant made with premium Belgian chocolate and fresh-baked daily. Perfect with your morning coffee or as an afternoon treat. Made with organic butter and hand-rolled for that perfect flaky texture.",
+                price: 3.99,
+                image: itemImageURL[0]
+            },
+            {
+                name: 'Butter Croissant',
+                shortDesc: 'Flaky, buttery croissant made with French-style cultured butter',
+                fullDesc: 'Flaky, buttery croissant made with French-style cultured butter. Our signature pastry that pairs perfectly with jam or enjoyed plain. Each croissant is hand-rolled and baked to golden perfection for a light, airy texture.',
+                price: 3.99,
+                image: itemImageURL[1]  
+            },
+            {
+                name: 'Mochi Donuts',
+                shortDesc: 'Soft and chewy mochi donuts with a variety of flavors',
+                fullDesc: 'Soft and chewy mochi donuts with a variety of flavors. These unique treats have a satisfying texture that combines the chewiness of mochi with the lightness of a donut. Available in chocolate, ube, matcha, vanilla, and fruity flavors. Gluten-free option available.',
+                price: 3.99,
+                image: itemImageURL[2]  
+            },
+            {
+                name: 'Sanrio Cookies',
+                shortDesc: 'Adorable character-shaped cookies that taste as good as they look',
+                fullDesc: 'Adorable character-shaped cookies that taste as good as they look. Perfect for gifts or as a special treat. Available in Hello Kitty, My Melody, and Cinnamoroll designs. Made with real butter and premium chocolate chips. Each cookie is hand-decorated with care.',
+                price: 2.99,
+                image: itemImageURL[3]  
+            },
+            {
+                name: 'Strawberry Sponge Cake',
+                shortDesc: 'Light and airy sponge cake layered with fresh strawberries',
+                fullDesc: 'Light and airy sponge cake layered with fresh strawberries and whipped cream. A classic dessert that highlights the natural sweetness of seasonal berries. Made with organic eggs and locally sourced strawberries. Perfect for celebrations or as an indulgent treat.',
+                price: 5.99,
+                image: itemImageURL[4]  
+            },
+            {
+                name: 'Flower Cake Pops',
+                shortDesc: 'Beautiful edible flowers made from cake pops',
+                fullDesc: 'Beautiful edible flowers made from cake pops. Each one is hand-decorated and makes for a stunning presentation. Perfect for parties or as a special gift. Available in strawberry, chocolate, and vanilla flavors. Made with real cake and premium frosting.',
+                price: 3.99,
+                image: itemImageURL[5]  
+            },
+            {
+                name: 'Miffy Bread',
+                shortDesc: 'Soft and adorable Miffy-shaped bread with a subtle strawberry flavor',
+                fullDesc: 'Soft and adorable Miffy-shaped bread with a subtle strawberry flavor. These cute breads are fun for kids and adults alike. Made with real strawberry puree and organic flour. Perfect for breakfast or as a snack. Each bun is individually shaped by our bakers.',
+                price: 3.99,
+                image: itemImageURL[6]  
+            },
+            {
+                name: 'Matcha Latte',
+                shortDesc: 'Creamy and sweet matcha drink made with premium ceremonial-grade matcha',
+                fullDesc: 'Creamy and sweet matcha drink made with premium ceremonial-grade matcha. Served hot or iced. Perfect balance of earthy matcha and creamy sweetness. Made with organic milk and sweetened with honey. A perfect pick-me-up any time of day.',
+                price: 5.99,
+                image: itemImageURL[7]  
+            },
+            {
+                name: 'Strawberry Matcha Latte',
+                shortDesc: 'Delightful combination of earthy matcha and sweet strawberry',
+                fullDesc: 'A delightful combination of earthy matcha and sweet strawberry. Layers of flavor that create a unique and refreshing beverage. Served hot or cold. Made with fresh strawberry puree and premium matcha. Topped with a light foam for the perfect finish.',
+                price: 5.99,
+                image: itemImageURL[8]  
+            }  
+        ];
+
+        const gallery = document.getElementById('gallery');
+        const cartItems = document.getElementById('cart-items');
+        const cartTotal = document.getElementById('cart-total');
+        const checkoutBtn = document.getElementById('checkout-btn');
+        const checkoutContainer = document.getElementById('checkout-container');
+        const backToCartBtn = document.getElementById('back-to-cart');
+        const completeOrderBtn = document.getElementById('complete-order');
+        const orderSummary = document.getElementById('order-summary');
+        const orderTotal = document.getElementById('order-total');
+        const continueShoppingBtn = document.getElementById('continue-shopping');
+        const checkoutForm = document.getElementById('checkout-form');
+        const confirmation = document.getElementById('confirmation');
+        const overlay = document.getElementById('overlay');
+        const notificationContainer = document.getElementById('notification-container');
+
+        let cart = {};
+        let notificationCount = 0;
+
+        function updateCart() {
+            cartItems.innerHTML = '';
+            let total = 0;
+
+            // Check if cart is empty
+            if (Object.keys(cart).length === 0) {
+                cartItems.innerHTML = '<div class="empty-cart-message">Your cart is empty.<br>Add some delicious treats!</div>';
+                cartTotal.innerText = 'Total: $0.00';
+                checkoutBtn.disabled = true;
+                checkoutBtn.style.opacity = '0.6';
+                checkoutBtn.style.cursor = 'not-allowed';
+                return;
+            }
+
+            checkoutBtn.disabled = false;
+            checkoutBtn.style.opacity = '1';
+            checkoutBtn.style.cursor = 'pointer';
+
+            for (let itemName in cart) {
+                const cartItem = cart[itemName];
+                total += cartItem.price * cartItem.quantity;
+
+                const div = document.createElement('div');
+                div.className = 'cart-item';
+
+                div.innerHTML = `
+                    <img src="${cartItem.image}" alt="${cartItem.name}">
+                    <div class="cart-item-details">
+                        <strong>${cartItem.name}</strong>
+                        <div>$${cartItem.price.toFixed(2)}</div>
+                    </div>
+                    <div class="quantity-controls">
+                        <button onclick="decreaseItem('${itemName}')">-</button>
+                        <span>${cartItem.quantity}</span>
+                        <button onclick="increaseItem('${itemName}')">+</button>
+                    </div>
+                    <button class="delete-button" onclick="removeItem('${itemName}')"><i class="fas fa-trash"></i></button>
+                `;
+
+                cartItems.appendChild(div);
+            }
+
+            cartTotal.innerText = `Total: $${total.toFixed(2)}`;
+        }
+
+        function addToCart(item) {
+            if (cart[item.name]) {
+                cart[item.name].quantity += 1;
+            } else {
+                cart[item.name] = {
+                    name: item.name,
+                    price: item.price,
+                    quantity: 1,
+                    image: item.image
+                };
+            }
+            updateCart();
+            
+            // Show success notification
+            showNotification(`${item.name} added to cart!`);
+        }
+
+        function increaseItem(itemName) {
+            cart[itemName].quantity += 1;
+            updateCart();
+        }
+
+        function decreaseItem(itemName) {
+            cart[itemName].quantity -= 1;
+            if (cart[itemName].quantity <= 0) {
+                delete cart[itemName];
+            }
+            updateCart();
+        }
+
+        function removeItem(itemName) {
+            delete cart[itemName];
+            updateCart();
+        }
+
+        function showNotification(message) {
+            const id = `notification-${notificationCount++}`;
+            const notification = document.createElement('div');
+            notification.id = id;
+            notification.className = 'notification';
+            notification.innerText = message;
+            
+            // Add to container (newest on top)
+            notificationContainer.prepend(notification);
+            
+            // Set timeout to remove notification after 3 seconds
+            setTimeout(() => {
+                notification.classList.add('notification-removing');
+                
+                // After animation completes, remove element and shift others
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 2500);
+        }
+
+        function initGallery() {
+            storeInventory.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'product-card';
+                
+                div.innerHTML = `
+                    <div class="product-image">
+                        <img src="${item.image}" alt="${item.name}">
+                    </div>
+                    <div class="product-info">
+                        <h3>${item.name}</h3>
+                        <div class="product-price">$${item.price.toFixed(2)}</div>
+                        <div class="description-container">
+                            <div class="short-description">${item.shortDesc}</div>
+                            <button class="expand-description">
+                                <i class="fas fa-chevron-down"></i>
+                                <span class="expand-text">More details</span>
+                            </button>
+                            <div class="full-description">${item.fullDesc}</div>
+                        </div>
+                    </div>
+                    <div class="product-actions">
+                        <button class='add-to-cart-btn' onclick='addToCart(${JSON.stringify(item).replace(/"/g, '&quot;')})'>
+                            <i class="fas fa-plus"></i> Add to Cart
+                        </button>
+                    </div>
+                `;
+                
+                gallery.appendChild(div);
+            });
+            
+            // Add event listeners for expand/collapse
+            document.querySelectorAll('.expand-description').forEach(button => {
+                button.addEventListener('click', function() {
+                    const container = this.closest('.description-container');
+                    const expandText = this.querySelector('.expand-text');
+                    
+                    container.classList.toggle('expanded');
+                    
+                    // Toggle text between "More details" and "Less details"
+                    if (container.classList.contains('expanded')) {
+                        expandText.textContent = 'Less details';
+                    } else {
+                        expandText.textContent = 'More details';
+                    }
+                });
+            });
+        }
+
+        function showCheckout() {
+            overlay.style.display = 'block';
+            checkoutContainer.classList.add('active');
+            updateOrderSummary();
+        }
+
+        function hideCheckout() {
+            overlay.style.display = 'none';
+            checkoutContainer.classList.remove('active');
+        }
+
+        function updateOrderSummary() {
+            orderSummary.innerHTML = '';
+            let total = 0;
+            
+            if (Object.keys(cart).length === 0) return;
+            
+            for (let itemName in cart) {
+                const item = cart[itemName];
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                const summaryItem = document.createElement('div');
+                summaryItem.className = 'summary-item';
+                summaryItem.innerHTML = `
+                    <span>${item.name} x ${item.quantity}</span>
+                    <span>$${itemTotal.toFixed(2)}</span>
+                `;
+                orderSummary.appendChild(summaryItem);
+            }
+            
+            orderTotal.innerText = `$${total.toFixed(2)}`;
+        }
+
+        function completeOrder() {
+            // Basic form validation
+            const fullName = document.getElementById('full-name').value;
+            const email = document.getElementById('email').value;
+            const address = document.getElementById('address').value;
+            const city = document.getElementById('city').value;
+            const state = document.getElementById('state').value;
+            const zip = document.getElementById('zip').value;
+            const cardName = document.getElementById('card-name').value;
+            const cardNumber = document.getElementById('card-number').value;
+            const expiry = document.getElementById('expiry').value;
+            const cvv = document.getElementById('cvv').value;
+            
+            if (!fullName || !email || !address || !city || !state || !zip || 
+                !cardName || !cardNumber || !expiry || !cvv) {
+                showNotification('Please fill all required fields!');
+                return;
+            }
+            
+            // Generate random order ID
+            const orderId = Math.floor(10000 + Math.random() * 90000);
+            document.getElementById('order-id').textContent = orderId;
+            
+            // Show confirmation
+            checkoutForm.style.display = 'none';
+            confirmation.style.display = 'block';
+            
+            // Clear cart
+            cart = {};
+            updateCart();
+        }
+
+        function resetCheckoutForm() {
+            checkoutForm.style.display = 'block';
+            confirmation.style.display = 'none';
+            document.getElementById('checkout-form').reset();
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            initGallery();
+            updateCart();
+            
+            // Event listeners
+            checkoutBtn.addEventListener('click', showCheckout);
+            backToCartBtn.addEventListener('click', hideCheckout);
+            completeOrderBtn.addEventListener('click', completeOrder);
+            continueShoppingBtn.addEventListener('click', () => {
+                hideCheckout();
+                resetCheckoutForm();
+            });
+            overlay.addEventListener('click', hideCheckout);
+        });
+    </script>
+</body>
+</html>
