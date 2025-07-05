@@ -1,0 +1,65 @@
+[
+    {
+        "name": "Chocolate Croissant",
+        "shortDesc": "Warm chocolate filled croissant made with premium Belgian chocolate",
+        "fullDesc": "Warm chocolate filled croissant made with premium Belgian chocolate and fresh-baked daily. Perfect with your morning coffee or as an afternoon treat. Made with organic butter and hand-rolled for that perfect flaky texture.",
+        "price": 3.99,
+        "image": "https://i.pinimg.com/736x/40/68/91/4068916f81fc85625e4d2d450c5fd820.jpg"
+    },
+    {
+        "name": "Butter Croissant",
+        "shortDesc": "Flaky, buttery croissant made with French-style cultured butter",
+        "fullDesc": "Flaky, buttery croissant made with French-style cultured butter. Our signature pastry that pairs perfectly with jam or enjoyed plain. Each croissant is hand-rolled and baked to golden perfection for a light, airy texture.",
+        "price": 3.99,
+        "image": "https://i.pinimg.com/736x/07/db/c1/07dbc1e9b15c5ec64190dfe5db176b50.jpg"
+    },
+    {
+        "name": "Mochi Donuts",
+        "shortDesc": "Soft and chewy mochi donuts with a variety of flavors",
+        "fullDesc": "Soft and chewy mochi donuts with a variety of flavors. These unique treats have a satisfying texture that combines the chewiness of mochi with the lightness of a donut. Available in chocolate, ube, matcha, vanilla, and fruity flavors. Gluten-free option available.",
+        "price": 3.99,
+        "image": "https://i.pinimg.com/736x/a7/64/99/a764997f875e9a22078dc8a7e0c82199.jpg"
+    },
+    {
+        "name": "Sanrio Cookies",
+        "shortDesc": "Adorable character-shaped cookies that taste as good as they look",
+        "fullDesc": "Adorable character-shaped cookies that taste as good as they look. Perfect for gifts or as a special treat. Available in Hello Kitty, My Melody, and Cinnamoroll designs. Made with real butter and premium chocolate chips. Each cookie is hand-decorated with care.",
+        "price": 2.99,
+        "image": "https://i.pinimg.com/736x/32/a5/38/32a538dbbc889c6e8f4ae4c781a37c9d.jpg"
+    },
+    {
+        "name": "Strawberry Sponge Cake",
+        "shortDesc": "Light and airy sponge cake layered with fresh strawberries",
+        "fullDesc": "Light and airy sponge cake layered with fresh strawberries and whipped cream. A classic dessert that highlights the natural sweetness of seasonal berries. Made with organic eggs and locally sourced strawberries. Perfect for celebrations or as an indulgent treat.",
+        "price": 5.99,
+        "image": "https://i.pinimg.com/736x/23/ed/0d/23ed0db365aac8fb20e1c265dc10eadf.jpg"
+    },
+    {
+        "name": "Flower Cake Pops",
+        "shortDesc": "Beautiful edible flowers made from cake pops",
+        "fullDesc": "Beautiful edible flowers made from cake pops. Each one is hand-decorated and makes for a stunning presentation. Perfect for parties or as a special gift. Available in strawberry, chocolate, and vanilla flavors. Made with real cake and premium frosting.",
+        "price": 3.99,
+        "image": "https://i.pinimg.com/736x/88/62/3a/88623ade480b56f4fda69ac20846b24b.jpg"
+    },
+    {
+        "name": "Miffy Bread",
+        "shortDesc": "Soft and adorable Miffy-shaped bread with a subtle strawberry flavor",
+        "fullDesc": "Soft and adorable Miffy-shaped bread with a subtle strawberry flavor. These cute breads are fun for kids and adults alike. Made with real strawberry puree and organic flour. Perfect for breakfast or as a snack. Each bun is individually shaped by our bakers.",
+        "price": 3.99,
+        "image": "https://i.pinimg.com/736x/b6/f7/0e/b6f70e4feaf93d0fb60c949b7e95c5bb.jpg"
+    },
+    {
+        "name": "Matcha Latte",
+        "shortDesc": "Creamy and sweet matcha drink made with premium ceremonial-grade matcha",
+        "fullDesc": "Creamy and sweet matcha drink made with premium ceremonial-grade matcha. Served hot or iced. Perfect balance of earthy matcha and creamy sweetness. Made with organic milk and sweetened with honey. A perfect pick-me-up any time of day.",
+        "price": 5.99,
+        "image": "https://i.pinimg.com/736x/49/9c/b6/499cb6f91b95ccec11998a3144246886.jpg"
+    },
+    {
+        "name": "Strawberry Matcha Latte",
+        "shortDesc": "Delightful combination of earthy matcha and sweet strawberry",
+        "fullDesc": "A delightful combination of earthy matcha and sweet strawberry. Layers of flavor that create a unique and refreshing beverage. Served hot or cold. Made with fresh strawberry puree and premium matcha. Topped with a light foam for the perfect finish.",
+        "price": 5.99,
+        "image": "https://i.pinimg.com/736x/ae/00/69/ae00694db3d9bbeabe8099891a1140f2.jpg"
+    }
+]
